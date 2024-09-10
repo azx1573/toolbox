@@ -7,6 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "sunflower",
+  "author": "anzixuan168@163.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/azx1573/toolbox"
+  },
   "license": "MIT"
 }
