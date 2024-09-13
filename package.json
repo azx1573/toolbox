@@ -1,9 +1,10 @@
 {
   "name": "super-toolbox",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A progressive toolBox",
   "main": "index.js",
   "scripts": {
+    "publish": "pnpm publish",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

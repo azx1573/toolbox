@@ -6,7 +6,7 @@
  * 3. once the state of Promise was changed to fulfilled by the first resolve. The other resolves have no chance to execute anymore
  */
 
-const example1 = () => {
+export const example1 = () => {
   console.log(2);
 
   setTimeout(() => {
@@ -26,7 +26,7 @@ const example1 = () => {
   // summarize: Promise的then是微任务，但是promise本身是同步任务
 };
 
-const example2 = () => {
+export const example2 = () => {
   console.log(11);
 
   setTimeout(() => {
@@ -48,7 +48,7 @@ const example2 = () => {
   // answer: 11 14 12 15 13
 };
 
-const example3 = () => {
+export const example3 = () => {
   setTimeout(() => {
     // p1
     new Promise((resolve, reject) => {
@@ -83,7 +83,7 @@ const example3 = () => {
   // summarize:
 };
 
-const example4 = () => {
+export const example4 = () => {
   setTimeout(() => {
     console.log(1);
   }, 0);
