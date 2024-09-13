@@ -4,7 +4,7 @@
   "description": "A progressive toolBox",
   "main": "index.js",
   "scripts": {
-    "publish": "pnpm publish",
+    "publish": "sudo pnpm publish",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
