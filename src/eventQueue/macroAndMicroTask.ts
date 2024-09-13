@@ -4,6 +4,7 @@
  * 1. the method of method in Promise is a micro-task, but the Promise itself is a synchronous task
  * 2. resolve has no effect without method of the
  * 3. once the state of Promise was changed to fulfilled by the first resolve. The other resolves have no chance to execute anymore
+ * 4. await is also belong to micro task
  */
 
 export const example1 = () => {
@@ -118,10 +119,29 @@ export const example4 = () => {
   console.log(6);
 
   // answer: 2 3 6 p2 p1 1 4 5
-  // summarize: resolve执行如果没有then的触发，那么其传的值也不会输出
 };
 
-const examples = [example1, example2, example3, example4];
+export const example5 = () => {
+  async function async1() {
+    console.log("async1 start");
+    await async2();
+  }
+
+  async function async2() {
+    console.log("async2");
+  }
+
+  console.log("script start");
+
+  setTimeout(() => {
+    console.log("setTimeout");
+  }, 0);
+
+  async1();
+  // answer: script start =>  async1 start => async2 => setTimeout
+};
+
+const examples = [example1, example2, example3, example4, example5];
 
 function dynamicExecute(number) {
   if (number >= 1 && number <= examples.length) {
@@ -131,4 +151,4 @@ function dynamicExecute(number) {
   }
 }
 
-dynamicExecute(4);
+dynamicExecute(5);
