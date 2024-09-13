@@ -1,2 +1,4 @@
 import yieldToMain from "./toolbox/yieldToMain.ts";
-export { yieldToMain };
+import eventQueueTestCases from "./eventQueue/macroAndMicroTask.ts";
+
+export { yieldToMain, eventQueueTestCases };
