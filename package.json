@@ -3,9 +3,7 @@
   "version": "1.0.6",
   "description": "A progressive toolBox",
   "main": "index.js",
-  "scripts": {
-    "publish": "sudo pnpm publish"
-  },
+  "scripts": {},
   "keywords": [],
   "author": "anzixuan168@163.com",
   "repository": {
