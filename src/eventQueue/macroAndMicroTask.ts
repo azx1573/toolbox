@@ -4,7 +4,7 @@
  * 1. the method of method in Promise is a micro-task, but the Promise itself is a synchronous task
  * 2. resolve has no effect without method of the
  * 3. once the state of Promise was changed to fulfilled by the first resolve. The other resolves have no chance to execute anymore
- * 4. await is also belong to micro task
+ * 4. await is also belong to micro task, the task after await function will be delayed
  */
 
 export const example1 = () => {
