@@ -125,6 +125,7 @@ export const example5 = () => {
   async function async1() {
     console.log("async1 start");
     await async2();
+    console.log("async1 end");
   }
 
   async function async2() {
@@ -138,10 +139,42 @@ export const example5 = () => {
   }, 0);
 
   async1();
-  // answer: script start =>  async1 start => async2 => setTimeout
+  // answer:script start => async1 start => async2 => async1 end => setTimeout
 };
 
-const examples = [example1, example2, example3, example4, example5];
+export const example6 = () => {
+  debugger;
+  async function asyncFunction() {
+    console.log("asyncFunction start");
+    // p1
+    await new Promise((resolve) => {
+      console.log("Promise in asyncFunction");
+      resolve("First Promise resolved");
+    });
+    console.log("asyncFunction after await");
+  }
+  // p2
+  new Promise((resolve) => {
+    console.log("First Promise");
+    resolve("second Promise resolved");
+  }).then((data) => {
+    console.log(data);
+  });
+
+  asyncFunction();
+  // p3
+  new Promise((resolve) => {
+    console.log("Second Promise");
+    resolve("third Promise resolved");
+  }).then((data) => {
+    console.log(data);
+  });
+
+  console.log("Global sync code");
+  // Answer：First Promise => asyncFunction start => Promise in asyncFunction => Second Promise => Global sync code => second Promise resolved => asyncFunction after await => third Promise resolved
+};
+
+const examples = [example1, example2, example3, example4, example5, example6];
 
 function dynamicExecute(number) {
   if (number >= 1 && number <= examples.length) {
@@ -151,4 +184,4 @@ function dynamicExecute(number) {
   }
 }
 
-dynamicExecute(5);
+dynamicExecute(6);
