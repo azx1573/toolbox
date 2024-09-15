@@ -4,9 +4,34 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>toolbox</title>
+    <style>
+      #img-container {
+        margin-top: 20px;
+      }
+    </style>
   </head>
   <body>
-    toolbox测试页面入口
-    <script src="./src/index.js"></script>
+    <h1>Mini Image Upload And Preview</h1>
+    <input type="file" id="iptContainer" />
+    <div id="img-container">
+      <img src="" id="imgContainer" />
+    </div>
+
+    <script>
+      /* get the input element */
+      const ipt = document.getElementById("iptContainer");
+      /* get file info from onchange event */
+      ipt.onchange = function () {
+        const file = ipt.files[0];
+        /* use FileReader，get more from https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader */
+        const reader = new FileReader(file);
+        /* use file type of DataUrl, get more from https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/readAsDataURL*/
+        reader.readAsDataURL(file);
+        /* async way */
+        reader.onload = (e) => {
+          imgContainer.src = e.target.result;
+        };
+      };
+    </script>
   </body>
 </html>
