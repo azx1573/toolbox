@@ -176,7 +176,7 @@ export const example6 = () => {
 
 const examples = [example1, example2, example3, example4, example5, example6];
 
-function dynamicExecute(number) {
+function dynamicExecute(number: number) {
   if (number >= 1 && number <= examples.length) {
     examples[number - 1]();
   } else {
