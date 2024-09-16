@@ -184,4 +184,4 @@ function dynamicExecute(number: number) {
   }
 }
 
-dynamicExecute(6);
+// dynamicExecute(6);
