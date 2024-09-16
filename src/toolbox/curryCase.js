@@ -14,9 +14,18 @@ function curry(fn) {
     };
   };
 }
+/**
+ * 使用箭头函数简化柯里化方法
+ * @param {*} fn
+ * @returns fn
+ */
+const curry2 = (fn) => (a) => (b) => fn(a, b);
+
 function sum(a, b) {
   return a + b;
 }
 const curriedSum = curry(sum);
+const curriedSum2 = curry2(sum);
 
-console.log(111, curriedSum(1)(2)(3)); // 3
+console.log(111, curriedSum(1)(2)); // 3
+console.log(222, curriedSum2(1)(2)); // 3
