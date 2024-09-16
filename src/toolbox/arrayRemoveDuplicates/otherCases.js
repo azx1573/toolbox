@@ -74,7 +74,7 @@ function unique2(arr) {
  * 最简洁有趣的方法-一行搞定
  */
 const unique3 = (arr) =>
-  arr.filter((item, index) => arr.indexOf(item) === index);
+  arr.filter((item, index, self) => self.indexOf(item) === index);
 
 /**
  * 复杂数据类型去重：比如数组对象
