@@ -66,12 +66,15 @@ export default function createPubSub() {
 
 const pubSub = createPubSub();
 const callback = (data) => {
-  console.log(666, "订阅者收到来自已订阅event的消息", data);
+  console.log(666, "订阅者收到来自event的消息", data);
 };
 
-// 订阅者1订阅事件
-pubSub.describe("event1", callback);
-pubSub.unSubscribe("event1", callback);
+// 订阅者订阅事件
+pubSub.describe("event", callback);
 
-// 发布者发布事件(如果订阅后取消了订阅，则不会收到消息)
-pubSub.publish("event1", "Hello-sunflower");
+// 订阅者取消订阅(如果订阅后取消了订阅，则不会收到消息)
+pubSub.unSubscribe("event", callback);
+
+// 发布者发布事件(订阅者无需排队，订阅的事件通过事件类型自动关联)
+pubSub.publish("event", "哈哈，听闻在腾大开会需要关窗户是真的吗？");
+pubSub.publish("event", "啥？只要新建文件夹就能看到别人的照片真的假的？");
