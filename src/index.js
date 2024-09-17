@@ -1,5 +1,15 @@
+import debounce from "./toolbox/debounce.js";
+import throttle from "./toolbox/throttle.js";
 import yieldToMain from "./toolbox/yieldToMain.ts";
-import eventQueueTestCases from "./eventQueue/macroAndMicroTask.ts";
 import unique from "./toolbox/arrayRemoveDuplicates/unique.js";
+import eventQueueTestCases from "./eventQueue/macroAndMicroTask.ts";
+import publisherAndSubscriber from "./toolbox/publisherAndSubscriber.js";
 
-export { yieldToMain, eventQueueTestCases, unique };
+export {
+  unique,
+  debounce,
+  throttle,
+  yieldToMain,
+  eventQueueTestCases,
+  publisherAndSubscriber,
+};

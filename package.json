@@ -1,6 +1,6 @@
 {
   "name": "super-toolbox",
-  "version": "1.0.10",
+  "version": "1.0.13",
   "description": "A progressive toolBox",
   "main": "index.js",
   "scripts": {

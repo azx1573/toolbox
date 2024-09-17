@@ -6,7 +6,7 @@
  * @param {*} delay
  * @returns
  */
-function debounce(fn, delay) {
+export default function debounce(fn, delay) {
   let timer = null;
   return function () {
     if (timer) {
