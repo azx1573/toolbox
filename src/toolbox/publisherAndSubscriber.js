@@ -2,8 +2,8 @@
  * 发布订阅者模式
  * 介绍：
  * 1. 存在一个事件中心(类似菜鸟驿站)：统一接收所有发布者发布的事件，并负责通知所有的订阅者
- * 2. 存在一个发布者(菜鸟驿站发货负责人，对接多个上家集中填单发货)：负责发布所有的事件
- * 3. 存在一个订阅者(菜鸟驿站的消费者)：当订阅了感兴趣的事件后，会自动收到已订阅的事件
+ * 2. 存在一个发布者(菜鸟驿站发货负责人，对接多个商家集中填单发货)：负责发布所有的事件
+ * 3. 存在一个订阅者(菜鸟驿站的消费者，callback相当于订阅方式，比如通过短信的方式)：当订阅了感兴趣的事件后，会通过订阅者设置的订阅方式自动收到来自发布者的通知
  * @returns {
  *  describe: (event, callback) => {},
  *  publish: (event, data) => {},
@@ -43,24 +43,35 @@ export default function createPubSub() {
       callback(data);
     });
   }
+
+  /**
+   * 取消订阅
+   */
+  function unSubscribe(event, callback) {
+    /** 如果没有订阅者时创建一个空数组，这样发布者就无需做非法格式的判断*/
+    if (!subscribers[event]) {
+      return;
+    }
+    /** 将订阅者订阅的事件统一存储到事件中心 */
+    subscribers[event] = subscribers[event].filter((cb) => cb !== callback);
+  }
+
   /** 事件中心统一向外公布发布和订阅方法 */
   return {
     describe,
     publish,
+    unSubscribe,
   };
 }
 
 const pubSub = createPubSub();
+const callback = (data) => {
+  console.log(666, "订阅者收到来自已订阅event的消息", data);
+};
 
 // 订阅者1订阅事件
-pubSub.describe("event1", (data) => {
-  console.log("订阅者1收到来自event1的消息");
-});
-// 订阅者2订阅事件
-pubSub.describe("event2", (data) => {
-  console.log("订阅者2收到来自event2的消息");
-});
+pubSub.describe("event1", callback);
+pubSub.unSubscribe("event1", callback);
 
-// 发布者发布事件(订阅者无需排队，订阅的事件通过事件类型自动关联)
-pubSub.publish("event1", "Hello");
-pubSub.publish("event2", "Sunflower");
+// 发布者发布事件(如果订阅后取消了订阅，则不会收到消息)
+pubSub.publish("event1", "Hello-sunflower");
