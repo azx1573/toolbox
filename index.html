@@ -12,17 +12,21 @@
   </head>
   <body>
     <!-- 文件上传与预览 -->
-    <h1>Mini Image Upload And Preview</h1>
-    <input type="file" id="iptContainer" />
+     <div>
+      <h1>Mini Image Upload And Preview</h1>
+      <input type="file" id="iptContainer" />
+  
+      <div id="img-container"></div>
+        <img src="" id="imgContainer" />
+      </div>
+     </div>
 
     <!-- 防抖节流测试 -->
-    <button id="debounceBtn">防抖测试按钮</button>
-    <button id="throttleBtn">节流测试按钮</button>
-
-    <div id="img-container">
-      <img src="" id="imgContainer" />
-    </div>
-
+     <div>
+      <h1>Debounce And Throttle</h1>
+      <button id="debounceBtn">防抖测试按钮</button>
+      <button id="throttleBtn">节流测试按钮</button>
+     </div>
     <script>
       /* get the input element */
       const ipt = document.getElementById("iptContainer");
