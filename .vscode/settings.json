@@ -1,0 +1,63 @@
+{
+  "background.enabled": true,
+  // 启用背景功能（具体作用可能与 VSCode 的背景相关设置有关）
+  "[javascript]": {
+    "editor.formatOnSave": true,
+    // 在保存 JavaScript 文件时自动格式化代码
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    // 设置 JavaScript 文件的默认格式化工具为 esbenp.prettier-vscode
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+    // 设置 JSONC 文件的默认格式化工具为 vscode.json-language-features
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+    // 设置 JSON 文件的默认格式化工具为 vscode.json-language-features
+  },
+  "terminal.integrated.tabs.enabled": true,
+  // 启用终端集成选项卡
+  "[less]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    // 设置 LESS 文件的默认格式化工具为 esbenp.prettier-vscode
+  },
+  "editor.maxTokenizationLineLength": 400000,
+  // 设置编辑器中令牌化行的最大长度为 400000
+  "diffEditor.ignoreTrimWhitespace": false,
+  // 在比较编辑器中不忽略修剪空白
+  "git.confirmSync": false,
+  // 禁用 Git 同步确认
+  "editor.tabSize": 2,
+  // 设置编辑器的制表符大小为 2
+  "gitlens.advanced.messages": {
+    "suppressGitDisabledWarning": true
+    // 抑制 Git 禁用警告消息
+  },
+  "[properties]": {},
+  "editor.formatOnSave": true,
+  // 在保存文件时自动格式化代码（可能适用于多种文件类型）
+  "editor.codeActionsOnSave": {
+    "source.fixAll.tslint": "explicit"
+    // 在保存时执行特定的代码操作，这里是针对 TSLint 的修复操作
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  // 设置默认的格式化工具为 esbenp.prettier-vscode（可能适用于多种文件类型）
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    // 设置 TypeScript 文件的默认格式化工具为 esbenp.prettier-vscode
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    // 设置 JavaScript React 文件的默认格式化工具为 esbenp.prettier-vscode
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  // 指定 TypeScript 的 SDK 路径为 node_modules/typescript/lib
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    // 设置 TypeScript React 文件的默认格式化工具为 esbenp.prettier-vscode
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    // 设置 TypeScript React 文件的默认格式化工具为 esbenp.prettier-vscode
+  }
+}
