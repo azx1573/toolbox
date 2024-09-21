@@ -6,11 +6,11 @@
  *      * 拥有【resolve和reject】两个函数,resolve函数将Promise对象的状态改为fulfilled,reject函数将Promise对象的状态改为rejected
  *      * 拥有【PromiseState】属性，用于保存Promise对象的状态
  *      * 拥有【PromiseResult】属性，用于保存Promise对象的结果(then方法需要返回成功或失败的结果)
- *      * 拥有【finally】方法，用于指定无论成功还是失败都会执行的回调函数
- *      * 拥有【all】方法，用于指定多个Promise对象同时执行，只有全部成功才会成功，只要有一个失败就会失败
- *      * 拥有【race】方法(类似于甲乙双方比赛，甲方为resolve方，乙方为reject方)，用于指定多个Promise对象同时执行，只要有一个成功就会成功，只要有一个失败就会失败
  *      * 拥有【resolve】方法，返回一个Promise对象，通过Promise.resolve方法返回的Promise对象的状态和结果取决于传入的参数
  *      * 拥有【reject】方法，返回一个失败的Promise对象，不管传入的参数是什么，结果都是失败
+ *      * 拥有【all】方法，用于指定多个Promise对象同时执行，只有全部成功才会成功，只要有一个失败就会失败
+ *      * 拥有【finally】方法，用于指定无论成功还是失败都会执行的回调函数
+ *      * 拥有【race】方法(类似于甲乙双方比赛，甲方为resolve方，乙方为reject方)，用于指定多个Promise对象同时执行，只要有一个成功就会成功，只要有一个失败就会失败
  *   * 实例对象原型拥有的属性和方法：
  *      * 拥有【then】方法，用于指定成功和失败的回调函数
  *      * 拥有【catch】方法，用于指定失败的回调函数
@@ -90,6 +90,17 @@ function Promise(executor) {
  */
 Promise.prototype.then = function (onResolved, onRejected) {
   const self = this;
+  // 如果不传onResolved函数，就默认返回成功的结果
+  if (typeof onResolved !== "function") {
+    onResolved = (value) => value;
+  }
+  // 支持catch方法的异常穿透处理，如果不传onRejected函数，就默认抛出异常
+  if (typeof onRejected !== "function") {
+    onRejected = (err) => {
+      throw err;
+    };
+  }
+
   return new Promise((resolve, reject) => {
     const callback = function (fnType) {
       try {
@@ -111,19 +122,26 @@ Promise.prototype.then = function (onResolved, onRejected) {
         reject(error);
       }
     };
-    // 保存成功和失败的回调函数
+    // 保存成功的回调函数
     if (this.PromiseState === "fulfilled") {
       callback(onResolved);
     }
+    // 保存失败的回调函数
     if (this.PromiseState === "rejected") {
       callback(onRejected);
     }
 
-    // 保存异步操作场景的回调函数
-    this.callbacks.push({
-      onResolved,
-      onRejected,
-    });
+    // 保存异步操作场景的回调函数，先存起来，等到Promise对象的状态改变时再执行
+    if (this.PromiseState === "pending") {
+      this.callbacks.push({
+        onResolved: function () {
+          callback(onResolved);
+        },
+        onRejected: function () {
+          callback(onRejected);
+        },
+      });
+    }
   });
 };
 
@@ -134,4 +152,116 @@ Promise.prototype.then = function (onResolved, onRejected) {
  */
 Promise.prototype.catch = function (onRejected) {
   return this.then(undefined, onRejected);
+};
+
+/**
+ * Promise实例对象的finally方法，返回一个新的Promise对象
+ * 1. 无论成功还是失败都会执行的回调函数
+ * 2. 返回的Promise对象的状态和结果取决于传入的Promise对象的状态和结果
+ * 3. 如果原始 Promise 成功，执行回调函数，然后返回一个新的 Promise，状态为 fulfilled，值为原始 Promise 的值
+ * 4. 如果原始 Promise 失败，执行回调函数，然后返回一个新的 Promise，状态为 rejected，值为原始 Promise 的失败原因
+ * @param {*} callback
+ * @returns
+ */
+Promise.prototype.finally = function (callback) {
+  return this.then(
+    (value) => {
+      return Promise.resolve(callback()).then(() => value);
+    },
+    (reason) => {
+      return Promise.resolve(callback()).then(() => {
+        throw reason;
+      });
+    }
+  );
+};
+
+/**
+ * Promise.resolve方法，返回一个Promise对象，其状态和结果取决于传入参数的类型：
+ * 1. 如果是一个Promise对象，那么返回的Promise对象的状态和结果取决于传入的Promise对象的状态和结果
+ * 2. 如果是一个普通值，那么返回的Promise对象是fulfilled的Promise，结果就是传入的值
+ * @param {*} data
+ * @returns
+ */
+Promise.resolve = function (data) {
+  return new Promise((resolve, reject) => {
+    if (data instanceof Promise) {
+      data.then(
+        (res) => {
+          resolve(res);
+        },
+        (err) => {
+          reject(err);
+        }
+      );
+    } else {
+      resolve(data);
+    }
+  });
+};
+
+/**
+ * Promise.reject方法，返回一个Promise对象
+ * 1. 不管传入的参数是什么，结果都是失败
+ * 2. 返回的Promise对象的状态是rejected
+ * 3. 返回的Promise对象的结果就是传入的参数
+ * @param {*} data
+ * @returns
+ */
+Promise.reject = function (data) {
+  return new Promise((resolve, reject) => {
+    reject(data);
+  });
+};
+
+/**
+ * Promise.all方法，用于指定多个Promise对象同时执行:
+ * 1. 只有全部成功才会成功，此时返回的Promise对象的结果是一个由所有Promise结果组成的数组，数组的顺序和传入的Promise对象的顺序一致
+ * 2. 只要有一个失败就会失败，此时返回的Promise对象的结果是失败的Promise对象的结果
+ * 3. 返回一个新的Promise对象
+ * @param {*} promises
+ */
+Promise.all = function (promises) {
+  return new Promise((resolve, reject) => {
+    let count = 0;
+    let result = [];
+    for (let index = 0; index < promises.length; index++) {
+      promises[index].then(
+        (res) => {
+          count++;
+          // 不采用push的方式，因为push的方式会改变数组的顺序
+          result[index] = res;
+          if (count === promises.length) {
+            resolve(result);
+          }
+        },
+        (err) => {
+          reject(err);
+        }
+      );
+    }
+  });
+};
+
+/**
+ * Promise.race方法，用于指定多个Promise对象同时执行(类似甲乙双方阵营的竞拍，谁家先拍到谁就是赢家):
+ * 1. 只要有一个成功就会成功，此时返回的Promise对象的结果是第一个成功的Promise对象的结果
+ * 2. 只要有一个失败就会失败，此时返回的Promise对象的结果是第一个失败的Promise对象的结果
+ * 3. 取决于第一个改变状态的Promise对象
+ * @param {*} promises
+ * @returns
+ */
+Promise.race = function (promises) {
+  return new Promise((resolve, reject) => {
+    for (let index = 0; index < promises.length; index++) {
+      promises[index].then(
+        (res) => {
+          resolve(res);
+        },
+        (err) => {
+          reject(err);
+        }
+      );
+    }
+  });
 };
