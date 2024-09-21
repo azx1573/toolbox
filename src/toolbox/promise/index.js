@@ -54,8 +54,10 @@ function Promise(executor) {
     self.PromiseState = "fulfilled";
     self.PromiseResult = data;
     // 批量执行异步操作场景成功的回调函数
-    self.callbacks.forEach((cb) => {
-      cb.onResolved(data);
+    setTimeout(() => {
+      self.callbacks.forEach((cb) => {
+        cb.onResolved(data);
+      });
     });
   }
 
@@ -71,8 +73,10 @@ function Promise(executor) {
     self.PromiseState = "rejected";
     self.PromiseResult = data;
     // 批量执行异步操作场景失败的回调函数
-    self.callbacks.forEach((cb) => {
-      cb.onRejected(data);
+    setTimeout(() => {
+      self.callbacks.forEach((cb) => {
+        cb.onRejected(data);
+      });
     });
   }
 
@@ -124,11 +128,15 @@ Promise.prototype.then = function (onResolved, onRejected) {
     };
     // 保存成功的回调函数
     if (this.PromiseState === "fulfilled") {
-      callback(onResolved);
+      setTimeout(() => {
+        callback(onResolved);
+      });
     }
     // 保存失败的回调函数
     if (this.PromiseState === "rejected") {
-      callback(onRejected);
+      setTimeout(() => {
+        callback(onRejected);
+      });
     }
 
     // 保存异步操作场景的回调函数，先存起来，等到Promise对象的状态改变时再执行
