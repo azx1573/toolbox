@@ -254,7 +254,7 @@ class Promise {
   }
 
   /**
-   * Promise.race方法，用于指定多个Promise对象同时执行(类似甲乙双方阵营的竞拍，谁家先拍到谁就是赢家):
+   * Promise.race方法，返回一个 Promise 对象，谁第一个改变状态谁就有决定权！也就是决定 race 最终的状态和结果:
    * 1. 只要有一个成功就会成功，此时返回的Promise对象的结果是第一个成功的Promise对象的结果
    * 2. 只要有一个失败就会失败，此时返回的Promise对象的结果是第一个失败的Promise对象的结果
    * 3. 取决于第一个改变状态的Promise对象

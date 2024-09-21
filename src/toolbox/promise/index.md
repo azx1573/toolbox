@@ -64,7 +64,9 @@
 
 1. 支持 resolve 方法(返回一个 Promise 对象，其结果和状态取决于内部 Promise 的状态和结果)
 2. 支持 reject 方法(不论入参是什么，始终返回一个 rejected 状态的 Promise 对象)
-3. 支持 all 方法(返回一个 Promise 对象，所有的 Promise 都成功则 all 成功，结果为所有 Promise 执行结果组成的数组；反之只要有一个失败则 all 失败，结果为失败 Promise 的执行结果)
+3. 支持 all 方法(返回一个 Promise 对象，所有的 Promise 都成功则 all 成功，结果为所有 Promise 执行结果组成的数组；反之只要有一个失败则 all 失败，结果为失败
+4. 支持 race 方法（返回一个 Promise 对象，谁第一个改变状态谁就有决定权！也就是决定 race 最终的状态和结果）:
+   Promise 的执行结果)
 
 三、实例对象方法新增：
 
