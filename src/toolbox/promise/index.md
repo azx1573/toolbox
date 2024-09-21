@@ -73,3 +73,7 @@
 ⭐️v5.0 版本：
 
 1. 将 Promise 的 then 方法、catch 方法、resolve 和 reject 异步更改状态后执行回调的方式跳转为异步
+
+⭐️v6.0 版本：
+
+1. 改造为 Class 版本
