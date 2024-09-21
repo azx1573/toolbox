@@ -35,22 +35,81 @@
 function Promise(executor) {
   // 保存Promise对象的状态
   this.PromiseState = "pending";
+  // 保存Promise对象的结果
+  this.PromiseResult = null;
+  // 保存异步操作场景的回调函数
+  this.callbacks = [];
+  // resolve和reject普通函数内部的this指向的是window对象，所以需要保存this
+  let self = this;
 
   /**
    * 成功的回调函数
    * @param {*} data
    * @returns
    */
-  function resolve(data) {}
+  function resolve(data) {
+    // Promise的状态只能被修改一次
+    if (self.PromiseState !== "pending") return;
+    // 修改Promise对象的状态为fulfilled;
+    self.PromiseState = "fulfilled";
+    self.PromiseResult = data;
+    // 批量执行异步操作场景成功的回调函数
+    self.callbacks.forEach((cb) => {
+      cb.onResolved(data);
+    });
+  }
 
   /**
    * 失败的回调函数
    * @param {*} data
    * @returns
    */
-  function reject(data) {}
-  executor(resolve, reject);
+  function reject(data) {
+    // Promise的状态只能被修改一次
+    if (self.PromiseState !== "pending") return;
+    // 修改Promise对象的状态为rejected;
+    self.PromiseState = "rejected";
+    self.PromiseResult = data;
+    // 批量执行异步操作场景失败的回调函数
+    self.callbacks.forEach((cb) => {
+      cb.onRejected(data);
+    });
+  }
+
+  try {
+    executor(resolve, reject);
+  } catch (error) {
+    reject(error);
+  }
 }
 
-Promise.prototype.then = function (onResolved, onRejected) {};
-Promise.prototype.catch = function (onRejected) {};
+/**
+ * 返回一个新的Promise对象
+ * @param {*} onResolved
+ * @param {*} onRejected
+ */
+Promise.prototype.then = function (onResolved, onRejected) {
+  return new Promise((resolve, reject) => {
+    if (this.PromiseState === "fulfilled") {
+      onResolved(this.PromiseResult);
+    }
+    if (this.PromiseState === "rejected") {
+      onRejected(this.PromiseResult);
+    }
+
+    // 保存异步操作场景的回调函数
+    this.callbacks.push({
+      onResolved,
+      onRejected,
+    });
+  });
+};
+
+/**
+ * Promise实例对象的catch方法，也返回一个新的Promise对象，只是指定失败的回调函数
+ * @param {*} onRejected
+ * @returns
+ */
+Promise.prototype.catch = function (onRejected) {
+  return this.then(undefined, onRejected);
+};
