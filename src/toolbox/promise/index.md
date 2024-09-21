@@ -40,3 +40,14 @@
 
 1. catch 也是返回一个 Promise 对象
 2. 可以复用 then 方法的第二个失败时的回调的实现
+
+⭐️v3.0 版本：
+
+一、完善 then 方法：
+
+1. 完善 then 方法的执行结果和状态
+2. then 方法的结果和状态取决于其内部回调函数（onResolved 和 onRejected）的执行结果：
+3. 如果内部回调函数的执行结果是一个新的 Promise 对象，则 then 的状态和值取决于内部 Promise 的执行结果
+4. 如果内部回调函数的执行结果是一个普通值，则返回一个 fulfilled 状态的回调函数，值为 onResolved 的执行结果
+5. 如果 then 的回调函数内部抛出异常，则 then 返回的返回值就是 rejected 状态的 Promise，值为 err
+6. onResolved 和 onRejected 的处理方式一致

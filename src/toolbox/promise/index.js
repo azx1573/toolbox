@@ -89,12 +89,34 @@ function Promise(executor) {
  * @param {*} onRejected
  */
 Promise.prototype.then = function (onResolved, onRejected) {
+  const self = this;
   return new Promise((resolve, reject) => {
+    const callback = function (fnType) {
+      try {
+        let result = fnType(self.PromiseResult);
+
+        if (result instanceof Promise) {
+          result.then(
+            (res) => {
+              resolve(res);
+            },
+            (err) => {
+              reject(err);
+            }
+          );
+        } else {
+          resolve(result);
+        }
+      } catch (error) {
+        reject(error);
+      }
+    };
+    // 保存成功和失败的回调函数
     if (this.PromiseState === "fulfilled") {
-      onResolved(this.PromiseResult);
+      callback(onResolved);
     }
     if (this.PromiseState === "rejected") {
-      onRejected(this.PromiseResult);
+      callback(onRejected);
     }
 
     // 保存异步操作场景的回调函数
