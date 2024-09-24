@@ -1,20 +1,8 @@
-import debounce from "./toolbox/debounce.js";
-import throttle from "./toolbox/throttle.js";
-import { yieldToMain, timeout } from "./toolbox/yieldToMain.ts";
-import unique from "./toolbox/arrayRemoveDuplicates/unique.js";
-import eventQueueTestCases from "./eventQueue/macroAndMicroTask.ts";
-import publisherAndSubscriber from "./toolbox/publisherAndSubscriber.js";
-import Promise from "./toolbox/promise/index.js";
-import SuperTask from "./toolbox/superTask.js";
-
-export {
-  unique,
-  debounce,
-  throttle,
-  yieldToMain,
-  timeout,
-  eventQueueTestCases,
-  publisherAndSubscriber,
-  Promise,
-  SuperTask,
-};
+export { default as arrayRemoveDuplicates} from './src/toolbox/arrayRemoveDuplicates/index';
+export { default as curryCase} from './src/toolbox/curryCase';
+export { default as debounce} from './src/toolbox/debounce';
+export { default as promise} from './src/toolbox/promise/index';
+export { default as publisherAndSubscriber} from './src/toolbox/publisherAndSubscriber';
+export { default as superTask} from './src/toolbox/superTask';
+export { default as throttle} from './src/toolbox/throttle';
+export { default as yieldToMain} from './src/toolbox/yieldToMain';

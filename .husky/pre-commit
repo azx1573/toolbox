@@ -1,0 +1,9 @@
+   #!/bin/bash
+
+   # 运行自动导出脚本
+   pnpm run export
+
+   # 更新目标文件并添加到暂存区
+   git add src/index.js
+
+   echo "Pre-commit tasks completed."
