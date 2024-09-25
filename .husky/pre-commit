@@ -6,4 +6,4 @@
    # 更新目标文件并添加到暂存区
    git add src/index.js
 
-   echo "Pre-commit tasks completed."
+   echo  "$(tput setaf 2)Pre-commit tasks of husky had been completed. $(tput sgr0)"
