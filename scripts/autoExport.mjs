@@ -7,9 +7,9 @@ fs.readdir("./src/toolbox").then((fileList) => {
       fileList.forEach((file) => {
         let fileName = file.split(".")[0];
         if (file.endsWith(".js") || file.endsWith(".ts")) {
-          exportStr += `export { default as ${fileName}} from './src/toolbox/${fileName}';\n`;
+          exportStr += `export { default as ${fileName}} from './toolbox/${fileName}';\n`;
         } else {
-          exportStr += `export { default as ${fileName}} from './src/toolbox/${fileName}/index';\n`;
+          exportStr += `export { default as ${fileName}} from './toolbox/${fileName}/index';\n`;
         }
       });
 

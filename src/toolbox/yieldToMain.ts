@@ -8,12 +8,4 @@ const yieldToMain = () => {
   });
 };
 
-function timeout(delay: number) {
-  return new Promise((resole) => {
-    setTimeout(() => {
-      resole(true);
-    }, delay);
-  });
-}
-
-export { yieldToMain, timeout };
+export default yieldToMain;

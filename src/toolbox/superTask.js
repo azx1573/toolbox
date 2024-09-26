@@ -1,4 +1,4 @@
-import { timeout } from "./yieldToMain.ts";
+import timeout from "./timeout.ts";
 
 /**
  * 并发任务控制器
