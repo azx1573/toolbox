@@ -5,4 +5,5 @@ export { default as promise} from './src/toolbox/promise/index';
 export { default as publisherAndSubscriber} from './src/toolbox/publisherAndSubscriber';
 export { default as superTask} from './src/toolbox/superTask';
 export { default as throttle} from './src/toolbox/throttle';
+export { default as toastMessage} from './src/toolbox/toastMessage';
 export { default as yieldToMain} from './src/toolbox/yieldToMain';
