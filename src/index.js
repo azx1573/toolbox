@@ -3,6 +3,7 @@ export { default as curryCase} from './toolbox/curryCase';
 export { default as debounce} from './toolbox/debounce';
 export { default as promise} from './toolbox/promise/index';
 export { default as publisherAndSubscriber} from './toolbox/publisherAndSubscriber';
+export { default as requestIdleCallbackPolyfill} from './toolbox/requestIdleCallbackPolyfill';
 export { default as superTask} from './toolbox/superTask';
 export { default as throttle} from './toolbox/throttle';
 export { default as timeout} from './toolbox/timeout';
