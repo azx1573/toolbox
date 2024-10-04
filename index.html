@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>toolbox</title>
+    <title><%= htmlWebpackPlugin.options.title %> </title>
     <style>
       #img-container {
         margin-top: 20px;
@@ -45,6 +45,10 @@
     </script>
 
     <script>
+       const blob = new Blob(['Hello, world!'], { type: 'text/plain' });
+       const url = URL.createObjectURL(blob);
+       console.log(8989, url);
+       
       function debounce(fn, delay) {
         let timer = null;
         return function () {

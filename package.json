@@ -1,10 +1,11 @@
 {
   "name": "super-toolbox",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "A progressive toolBox",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config webpack.config.js",
+    "build": "webpack",
     "export": "node ./scripts/autoExport.mjs",
     "prepare": "husky"
   },

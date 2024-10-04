@@ -1,14 +1,20 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
+// @ts-check
+/** @type {import('webpack').Configuration} */
+
 module.exports = {
-  entry: "./src/index.js",
+  entry: {
+    index: path.resolve(__dirname, "/src/index.js"),
+  },
   mode: "development",
   devtool: "inline-source-map",
-  devtool: "eval",
   output: {
-    filename: "bundle.js",
+    filename: "[chunkhash].bundle.js",
     path: path.resolve(__dirname, "dist"),
+    publicPath: "/",
+    clean: true,
   },
   module: {
     rules: [
@@ -21,6 +27,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
+      title: "toolbox",
       template: path.resolve(__dirname, "index.html"),
     }),
   ],
