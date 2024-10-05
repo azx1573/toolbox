@@ -32,6 +32,15 @@ module.exports = {
             exclude: /node_modules/,
           },
           {
+            test: /\.(js|ts)$/,
+            include: path.resolve(__dirname, "../src"),
+            loader: "babel-loader",
+            options: {
+              cacheDirectory: true, // 开启babel缓存
+              cacheCompression: false, // 关闭babel缓存压缩，提升编译速度
+            },
+          },
+          {
             test: /\.css$/,
             use: generateStyleLoader(),
           },
@@ -88,6 +97,7 @@ module.exports = {
     // 配置eslint插件
     new EslintWebpackPlugin({
       context: path.resolve(__dirname, "src"),
+      cache: true, // 开启eslint缓存
     }),
     // 将css单独提取到文件
     new MiniCssExtractPlugin(),
