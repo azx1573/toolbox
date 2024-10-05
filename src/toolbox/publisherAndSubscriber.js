@@ -24,7 +24,7 @@ export default function createPubSub() {
       subscribers[event] = [];
     }
     /** 将订阅者订阅的事件统一存储到事件中心 */
-    subscribers[event].push(callback);
+    subscribers[event]?.push(callback);
   }
   /**
    * 发布事件
@@ -39,7 +39,7 @@ export default function createPubSub() {
     }
 
     /** 遍历所有订阅者订阅的事件，集中统一发布 */
-    subscribers[event]?.forEach((callback) => {
+    subscribers[event].forEach((callback) => {
       callback(data);
     });
   }

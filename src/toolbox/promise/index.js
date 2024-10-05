@@ -32,7 +32,7 @@
  *        * 抛出异常
  * @param {*} executor
  */
-class Promise {
+export default class Promise {
   // 构造方法
   constructor(executor) {
     // 保存Promise对象的状态

@@ -2,6 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const EslintWebpackPlugin = require("eslint-webpack-plugin");
 
 // @ts-check
 /** @type {import('webpack').Configuration} */
@@ -72,9 +73,16 @@ module.exports = {
     new BundleAnalyzerPlugin({
       openAnalyzer: false,
     }),
+    new EslintWebpackPlugin({
+      context: path.resolve(__dirname, "src"),
+    }),
   ],
   resolve: {
     extensions: [".ts", ".js"],
+  },
+  stats: {
+    chunks: true,
+    chunkModules: true,
   },
   devServer: {
     port: 168,
@@ -83,14 +91,6 @@ module.exports = {
     compress: true,
     client: {
       progress: true,
-    },
-    stats: {
-      chunks: true,
-      modules: true,
-      assets: true,
-      moduleAssets: true,
-      chunkGroups: true,
-      chunkOrigins: true,
     },
     static: {
       directory: path.resolve(__dirname, "dist"),
