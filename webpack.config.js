@@ -1,7 +1,5 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const BundleAnalyzerPlugin =
-  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 // @ts-check
 /** @type {import('webpack').Configuration} */
@@ -25,6 +23,22 @@ module.exports = {
         use: "ts-loader",
         exclude: /node_modules/,
       },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.less$/,
+        use: ["style-loader", "css-loader", "less-loader"],
+      },
+      {
+        test: /\.s[ac]ss$/,
+        use: ["style-loader", "css-loader", "sass-loader"],
+      },
+      {
+        test: /\.styl$/,
+        use: ["style-loader", "css-loader", "stylus-loader"],
+      },
     ],
   },
   plugins: [
@@ -44,13 +58,17 @@ module.exports = {
     compress: true,
     client: {
       progress: true,
-  },
-  stats: {
-    chunks: true,
-    modules: true,
-    assets: true,
-    moduleAssets: true,
-    chunkGroups: true,
-    chunkOrigins: true,
+    },
+    stats: {
+      chunks: true,
+      modules: true,
+      assets: true,
+      moduleAssets: true,
+      chunkGroups: true,
+      chunkOrigins: true,
+    },
+    static: {
+      directory: path.resolve(__dirname, "dist"),
+    },
   },
 };
