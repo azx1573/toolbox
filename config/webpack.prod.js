@@ -4,6 +4,7 @@ const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const EslintWebpackPlugin = require("eslint-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+import { generateStyleLoader } from "./generateStyleLoader";
 
 // @ts-check
 /** @type {import('webpack').Configuration} */
@@ -16,7 +17,7 @@ module.exports = {
   devtool: "inline-source-map",
   output: {
     filename: "static/js/[chunkhash:10].bundle.js",
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "../dist"),
     publicPath: "/",
     clean: true,
   },
@@ -29,19 +30,20 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        use: generateStyleLoader(),
       },
       {
         test: /\.less$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "less-loader"],
+        use: generateStyleLoader("less-loader"),
       },
       {
         test: /\.s[ac]ss$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+        use: generateStyleLoader("sass-loader"),
       },
       {
         test: /\.styl$/,
         use: [MiniCssExtractPlugin.loader, "css-loader", "stylus-loader"],
+        use: generateStyleLoader("stylus-loader"),
       },
       // 使用webpack内置的资源模块类型处理图片文件(asset为通用资源模块，会自动根据文件大小选择base64或者file)
       {
