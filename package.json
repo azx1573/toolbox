@@ -4,8 +4,8 @@
   "description": "A progressive toolBox",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --config webpack.config.js",
-    "build": "webpack --config webpack.config.js",
+    "start": "webpack-dev-server --config ./config/webpack.dev.js",
+    "build": "webpack --config ./config/webpack.prod.js",
     "export": "node ./scripts/autoExport.mjs",
     "prepare": "husky"
   },
