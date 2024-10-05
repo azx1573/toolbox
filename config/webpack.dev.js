@@ -27,7 +27,19 @@ module.exports = {
       },
       {
         test: /\.less$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "less-loader"],
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          {
+            loader: "postcss-loader",
+            options: {
+              postcssOptions: {
+                plugins: ["postcss-preset-env"],
+              },
+            },
+          },
+          "less-loader",
+        ],
       },
       {
         test: /\.s[ac]ss$/,
@@ -96,4 +108,9 @@ module.exports = {
       directory: path.resolve(__dirname, "../dist"),
     },
   },
+  browserlist: [
+    "last 2 version", // 兼容最新两个版本，
+    ">1%", // 兼容市场份额大于1%的浏览器
+    "not dead", // 不兼容已经停止维护的浏览器
+  ],
 };
