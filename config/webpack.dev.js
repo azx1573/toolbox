@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const EslintWebpackPlugin = require("eslint-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 // @ts-check
 /** @type {import('webpack').Configuration} */
@@ -22,19 +23,19 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
       {
         test: /\.less$/,
-        use: ["style-loader", "css-loader", "less-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "less-loader"],
       },
       {
         test: /\.s[ac]ss$/,
-        use: ["style-loader", "css-loader", "sass-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
       {
         test: /\.styl$/,
-        use: ["style-loader", "css-loader", "stylus-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "stylus-loader"],
       },
       {
         test: /\.(png|jpe?g|gif|webp|svg)$/,
@@ -66,13 +67,14 @@ module.exports = {
       template: path.resolve(__dirname, "../index.html"),
     }),
     // 打包分析插件
-    new BundleAnalyzerPlugin({
-      openAnalyzer: false,
-    }),
+    // new BundleAnalyzerPlugin({
+    //   openAnalyzer: false,
+    // }),
     // 配置eslint插件
     new EslintWebpackPlugin({
       context: path.resolve(__dirname, "src"),
     }),
+    new MiniCssExtractPlugin(),
   ],
   resolve: {
     extensions: [".ts", ".js"],
