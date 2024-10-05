@@ -6,7 +6,7 @@ const BundleAnalyzerPlugin =
 const EslintWebpackPlugin = require("eslint-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const generateStyleLoader = require("./generateStyleLoader");
-
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 // @ts-check
 /** @type {import('webpack').Configuration} */
 
@@ -80,6 +80,7 @@ module.exports = {
     new EslintWebpackPlugin({
       context: path.resolve(__dirname, "src"),
     }),
+    // 将css提取到单独文件
     new MiniCssExtractPlugin(),
     new webpack.LoaderOptionsPlugin({
       browserlist: [
@@ -88,6 +89,8 @@ module.exports = {
         "not dead", // 不兼容已经停止维护的浏览器
       ],
     }),
+    // webpack默认压缩只是针对简单的比如空格等，用插件开启css压缩
+    new CssMinimizerPlugin(),
   ],
   resolve: {
     extensions: [".ts", ".js"],
