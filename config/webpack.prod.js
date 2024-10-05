@@ -38,6 +38,7 @@ module.exports = {
             options: {
               cacheDirectory: true, // 开启babel缓存
               cacheCompression: false, // 关闭babel缓存压缩，提升编译速度
+              plugins: ["@babel/plugin-transform-runtime"], // 减少babel编译代码体积
             },
           },
           {
