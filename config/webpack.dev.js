@@ -9,16 +9,10 @@ const EslintWebpackPlugin = require("eslint-webpack-plugin");
 
 module.exports = {
   entry: {
-    index: path.resolve(__dirname, "/src/index.js"),
+    index: path.resolve(__dirname, "../src/index.js"),
   },
   mode: "development",
   devtool: "inline-source-map",
-  output: {
-    filename: "static/js/[chunkhash:10].bundle.js",
-    path: path.resolve(__dirname, "dist"),
-    publicPath: "/",
-    clean: true,
-  },
   module: {
     rules: [
       {
@@ -66,13 +60,16 @@ module.exports = {
     ],
   },
   plugins: [
+    // 生成指定html文件
     new HtmlWebpackPlugin({
       title: "toolbox",
-      template: path.resolve(__dirname, "index.html"),
+      template: path.resolve(__dirname, "../index.html"),
     }),
+    // 打包分析插件
     new BundleAnalyzerPlugin({
       openAnalyzer: false,
     }),
+    // 配置eslint插件
     new EslintWebpackPlugin({
       context: path.resolve(__dirname, "src"),
     }),
@@ -86,14 +83,15 @@ module.exports = {
   },
   devServer: {
     port: 168,
-    hot: true,
+    hot: true, // 启用热模块替换
     open: true,
-    compress: true,
+    compress: true, // 开发服务器是否启用gzip压缩
     client: {
       progress: true,
     },
     static: {
-      directory: path.resolve(__dirname, "dist"),
+      // 为打包后的静态资源提供服务，服务启动后执行打包后的文件，通过directory可指定资源路径
+      directory: path.resolve(__dirname, "../dist"),
     },
   },
 };
