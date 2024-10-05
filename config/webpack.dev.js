@@ -4,6 +4,7 @@ const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const EslintWebpackPlugin = require("eslint-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+import { generateStyleLoader } from "./generateStyleLoader";
 
 // @ts-check
 /** @type {import('webpack').Configuration} */
@@ -23,31 +24,19 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        use: generateStyleLoader(),
       },
       {
         test: /\.less$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          "css-loader",
-          {
-            loader: "postcss-loader",
-            options: {
-              postcssOptions: {
-                plugins: ["postcss-preset-env"],
-              },
-            },
-          },
-          "less-loader",
-        ],
+        use: generateStyleLoader("less-loader"),
       },
       {
         test: /\.s[ac]ss$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+        use: generateStyleLoader("sass-loader"),
       },
       {
         test: /\.styl$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "stylus-loader"],
+        use: generateStyleLoader("stylus-loader"),
       },
       {
         test: /\.(png|jpe?g|gif|webp|svg)$/,
