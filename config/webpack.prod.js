@@ -1,10 +1,11 @@
 const path = require("path");
+const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const EslintWebpackPlugin = require("eslint-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-import { generateStyleLoader } from "./generateStyleLoader";
+const generateStyleLoader = require("./generateStyleLoader");
 
 // @ts-check
 /** @type {import('webpack').Configuration} */
@@ -85,6 +86,13 @@ module.exports = {
       context: path.resolve(__dirname, "src"),
     }),
     new MiniCssExtractPlugin(),
+    new webpack.LoaderOptionsPlugin({
+      browserlist: [
+        "last 2 version", // 兼容最新两个版本，
+        ">1%", // 兼容市场份额大于1%的浏览器
+        "not dead", // 不兼容已经停止维护的浏览器
+      ],
+    }),
   ],
   resolve: {
     extensions: [".ts", ".js"],

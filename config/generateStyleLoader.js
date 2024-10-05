@@ -1,6 +1,6 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-export const generateStyleLoader = (pre) => {
+module.exports = (pre) => {
   return [
     // 使用MiniCssExtractPlugin.loader替换style-loader，可以提取css到单独文件
     MiniCssExtractPlugin.loader,
@@ -10,7 +10,14 @@ export const generateStyleLoader = (pre) => {
       loader: "postcss-loader",
       options: {
         postcssOptions: {
-          plugins: ["postcss-preset-env"],
+          plugins: [
+            [
+              "postcss-preset-env",
+              {
+                browsers: "last 2 versions",
+              },
+            ],
+          ],
         },
       },
     },
