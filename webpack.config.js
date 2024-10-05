@@ -1,5 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 // @ts-check
 /** @type {import('webpack').Configuration} */
@@ -11,7 +13,7 @@ module.exports = {
   mode: "development",
   devtool: "inline-source-map",
   output: {
-    filename: "[chunkhash].bundle.js",
+    filename: "static/js/[chunkhash:10].bundle.js",
     path: path.resolve(__dirname, "dist"),
     publicPath: "/",
     clean: true,
@@ -39,6 +41,27 @@ module.exports = {
         test: /\.styl$/,
         use: ["style-loader", "css-loader", "stylus-loader"],
       },
+      {
+        test: /\.(png|jpe?g|gif|webp|svg)$/,
+        type: "asset", // 通用资源模块类型，会自动根据文件大小选择base64或者file,默认8kb,可通过parser.dataUrlCondition.maxSize修改
+        parser: {
+          dataUrlCondition: {
+            maxSize: 8 * 1024,
+          },
+        },
+        generator: {
+          // 配置输出文件名，ext代表保留原文件扩展名
+          filename: "static/img/[hash:10][ext]",
+        },
+      },
+      {
+        test: /\.(eot|ttf|woff2?)$/,
+        type: "asset/resource", // 生成单独文件
+        generator: {
+          // 配置输出文件名，ext代表保留原文件扩展名
+          filename: "static/font/[hash:10][ext]",
+        },
+      },
     ],
   },
   plugins: [
@@ -46,7 +69,9 @@ module.exports = {
       title: "toolbox",
       template: path.resolve(__dirname, "index.html"),
     }),
-    new BundleAnalyzerPlugin(),
+    new BundleAnalyzerPlugin({
+      openAnalyzer: false,
+    }),
   ],
   resolve: {
     extensions: [".ts", ".js"],
