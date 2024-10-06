@@ -103,6 +103,32 @@ module.exports = {
     // webpack默认压缩只是针对简单的比如空格等，用插件开启css压缩
     new CssMinimizerPlugin(),
   ],
+  optimization: {
+    splitChunks: {
+      chunks: "all", // 默认是async，表示只对异步代码进行分割，all表示同步异步代码都分割
+      // minSize: 20000, // 生成chunk的最小大小，单位byte，默认是20kb
+      // minRemainingSize: 0, // 生成chunk的最小剩余大小，单位byte，默认是0
+      // minChunks: 1, // 生成chunk的最小引用次数，默认是1, 表示只有被引用1次的模块才会被分割
+      // maxAsyncRequests: 30, // 按需加载时的最大并行请求数，默认是30
+      // maxInitialRequests: 30, // 入口js文件最大并行请求数，默认是30
+      // enforceSizeThreshold: 50000, // 强制分割前检查chunk大小，单位byte，默认是50kb，超过50一定会被分割，此时会忽略miniRemainingSize/maxAsyncRequests/maxInitialRequests
+      cacheGroups: {
+        // 缓存组，可以继承或者覆盖splitChunks的配置
+        // defaultVendors: {
+        //   // 默认配置，打包node_modules中的模块
+        //   test: /[\\/]node_modules[\\/]/,
+        //   priority: -10, // 权重，当一个模块符合多个缓存组时，会被分到权重高的缓存组
+        //   reuseExistingChunk: true, // 是否复用已经存在的chunk, 如果当前chunk包含已经存在的chunk，就会复用已经存在的chunk而不是生成新的chunk
+        //   filename: "vendors.js", // 生成的文件名
+        // },
+        // 默认配置，打包其他模块，此时会忽略splitChunks中同名配置
+        default: {
+          priority: -20, // 权重
+          reuseExistingChunk: true, // 是否复用已经存在的chunk
+        },
+      },
+    },
+  },
   resolve: {
     extensions: [".ts", ".js"],
   },
