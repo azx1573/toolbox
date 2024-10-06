@@ -7,6 +7,7 @@ const EslintWebpackPlugin = require("eslint-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const generateStyleLoader = require("./generateStyleLoader");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
 // @ts-check
 /** @type {import('webpack').Configuration} */
 
@@ -102,6 +103,15 @@ module.exports = {
     }),
     // webpack默认压缩只是针对简单的比如空格等，用插件开启css压缩
     new CssMinimizerPlugin(),
+    // 资源预加载，用于动态生成link标签，设置rel="preload" as="script"，提前加载js文件
+    new PreloadWebpackPlugin({
+      rel: "preload",
+      as: "script",
+    }),
+    // 资源预加载，用于动态生成link标签，设置rel="prefetch"，提前加载js文件
+    // new PreloadWebpackPlugin({
+    //   rel: "prefetch",
+    // }),
   ],
   optimization: {
     splitChunks: {

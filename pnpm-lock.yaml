@@ -27,6 +27,9 @@ importers:
       '@babel/preset-env':
         specifier: ^7.25.7
         version: 7.25.7(@babel/core@7.25.7)
+      '@vue/preload-webpack-plugin':
+        specifier: ^2.0.0
+        version: 2.0.0(html-webpack-plugin@5.6.0(webpack@5.94.0(webpack-cli@5.1.4)))(webpack@5.94.0(webpack-cli@5.1.4))
       babel-loader:
         specifier: ^9.2.1
         version: 9.2.1(@babel/core@7.25.7)(webpack@5.94.0(webpack-cli@5.1.4))
@@ -1127,6 +1130,13 @@ packages:
 
   '@types/yargs@17.0.33':
     resolution: {integrity: sha512-WpxBCKWPLr4xSsHgz511rFJAM+wS28w2zEO1QDNY5zM/S8ok70NNfztH0xwhqKyaK0OHCbN98LDAZuy1ctxDkA==}
+
+  '@vue/preload-webpack-plugin@2.0.0':
+    resolution: {integrity: sha512-RoorRB50WehYbsiWu497q8egZBYlrvOo9KBUG41uth4O023Cbs+7POLm9uw2CAiViBAIhvpw1Y4w4i+MZxOfXw==}
+    engines: {node: '>=6.0.0'}
+    peerDependencies:
+      html-webpack-plugin: ^5.0.0 || ^4.5.1
+      webpack: ^5.20.0 || ^4.1.0
 
   '@webassemblyjs/ast@1.12.1':
     resolution: {integrity: sha512-EKfMUOPRRUTy5UII4qJDGPpqfwjOmZ5jeGFwid9mnoqIFK+e0vqoi1qH56JpmZSzEL53jKnNzScdmftJyG5xWg==}
@@ -4785,6 +4795,11 @@ snapshots:
   '@types/yargs@17.0.33':
     dependencies:
       '@types/yargs-parser': 21.0.3
+
+  '@vue/preload-webpack-plugin@2.0.0(html-webpack-plugin@5.6.0(webpack@5.94.0(webpack-cli@5.1.4)))(webpack@5.94.0(webpack-cli@5.1.4))':
+    dependencies:
+      html-webpack-plugin: 5.6.0(webpack@5.94.0(webpack-cli@5.1.4))
+      webpack: 5.94.0(webpack-cli@5.1.4)
 
   '@webassemblyjs/ast@1.12.1':
     dependencies:

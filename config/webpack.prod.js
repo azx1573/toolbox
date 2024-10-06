@@ -7,6 +7,7 @@ const EslintWebpackPlugin = require("eslint-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const generateStyleLoader = require("./generateStyleLoader");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
 // @ts-check
 /** @type {import('webpack').Configuration} */
 
@@ -17,7 +18,12 @@ module.exports = {
   mode: "production",
   devtool: "source-map",
   output: {
-    filename: "static/js/[chunkhash:10].bundle.js",
+    //入口文件输出配置
+    filename: "static/js/[name].js",
+    //非入口文件输出配置, 例如按需加载的文件
+    chunkFilename: "static/js/[name].chunk.js",
+    //诸如图片、字体等资源的输出命名配置
+    assetModuleFilename: "static/[hash:10][ext][query]",
     path: path.resolve(__dirname, "../dist"),
     publicPath: "/",
     clean: true,
@@ -67,19 +73,21 @@ module.exports = {
                 maxSize: 8 * 1024,
               },
             },
-            generator: {
-              // 配置输出文件名，ext代表保留原文件扩展名
-              filename: "static/img/[hash:10][ext]",
-            },
+            // 统一图片和字体等资源的命名，采用output中的assetModuleFilename配置
+            // generator: {
+            //   // 配置输出文件名，ext代表保留原文件扩展名
+            //   filename: "static/img/[hash:10][ext]",
+            // },
           },
           // 使用webpack内置的资源模块类型处理字体文件(asset/resource为单独文件，会发起http请求获取)
           {
             test: /\.(eot|ttf|woff2?)$/,
             type: "asset/resource", // 生成单独文件
-            generator: {
-              // 配置输出文件名，ext代表保留原文件扩展名
-              filename: "static/font/[hash:10][ext]",
-            },
+            // 统一图片和字体等资源的命名，采用output中的assetModuleFilename配置
+            // generator: {
+            //   // 配置输出文件名，ext代表保留原文件扩展名
+            //   filename: "static/font/[hash:10][ext]",
+            // },
           },
         ],
       },
@@ -100,8 +108,11 @@ module.exports = {
       context: path.resolve(__dirname, "src"),
       cache: true, // 开启eslint缓存
     }),
-    // 将css单独提取到文件
-    new MiniCssExtractPlugin(),
+    // 将css单独提取到文件中，而不是以字符串的形式打包到js中，避免js文件过大
+    new MiniCssExtractPlugin({
+      filename: "static/css/[name].css",
+      chunkFilename: "static/css/[name].chunk.css",
+    }),
     new webpack.LoaderOptionsPlugin({
       browserlist: [
         "last 2 version", // 兼容最新两个版本，
@@ -111,6 +122,15 @@ module.exports = {
     }),
     // webpack默认压缩只是针对简单的比如空格等，用插件开启css压缩
     new CssMinimizerPlugin(),
+    // 资源预加载，用于动态生成link标签，设置rel="preload" as="script"，提前加载js文件
+    new PreloadWebpackPlugin({
+      rel: "preload",
+      as: "script",
+    }),
+    // 资源预加载，用于动态生成link标签，设置rel="prefetch"，提前加载js文件
+    // new PreloadWebpackPlugin({
+    //   rel: "prefetch",
+    // }),
   ],
   optimization: {
     splitChunks: {
