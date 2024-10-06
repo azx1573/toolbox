@@ -4,6 +4,7 @@ export { default as debounce} from './toolbox/debounce';
 export { default as downloadWithTagA} from './toolbox/downloadWithTagA';
 export { default as promise} from './toolbox/promise/index';
 export { default as publisherAndSubscriber} from './toolbox/publisherAndSubscriber';
+export { default as pwa} from './toolbox/pwa';
 export { default as requestIdleCallbackPolyfill} from './toolbox/requestIdleCallbackPolyfill';
 export { default as superTask} from './toolbox/superTask';
 export { default as throttle} from './toolbox/throttle';

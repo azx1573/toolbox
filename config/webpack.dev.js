@@ -113,6 +113,7 @@ module.exports = {
     //   rel: "prefetch",
     // }),
   ],
+  //webpack的优化配置，包括代码分割、压缩、模块分析等
   optimization: {
     splitChunks: {
       chunks: "all", // 默认是async，表示只对异步代码进行分割，all表示同步异步代码都分割
@@ -137,6 +138,10 @@ module.exports = {
           reuseExistingChunk: true, // 是否复用已经存在的chunk
         },
       },
+    },
+    //抽离模块间运行时的依赖关系到单独的文件中，避免被依赖的模块hash变化导致缓存失效
+    runtimeChunk: {
+      name: (entrypoint) => `runtime-${entrypoint.name}`,
     },
   },
   resolve: {

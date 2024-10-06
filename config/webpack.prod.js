@@ -8,6 +8,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const generateStyleLoader = require("./generateStyleLoader");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
+const WorkboxPlugin = require("workbox-webpack-plugin");
 // @ts-check
 /** @type {import('webpack').Configuration} */
 
@@ -19,12 +20,12 @@ module.exports = {
   devtool: "source-map",
   output: {
     //入口文件输出配置
-    filename: "static/js/[name].js",
+    filename: "static/js/[name].[contenthash:10].js",
     //非入口文件输出配置, 例如按需加载的文件
     chunkFilename: "static/js/[name].chunk.js",
     //诸如图片、字体等资源的输出命名配置
-    assetModuleFilename: "static/[hash:10][ext][query]",
-    path: path.resolve(__dirname, "../dist"),
+    assetModuleFilename: "static/[contenthash:10][ext][query]",
+    path: path.resolve(__dirname, "../lib"),
     publicPath: "/",
     clean: true,
   },
@@ -131,8 +132,15 @@ module.exports = {
     // new PreloadWebpackPlugin({
     //   rel: "prefetch",
     // }),
+    // PWA插件，用于生成service-worker文件，提供离线访问能力
+    new WorkboxPlugin.GenerateSW({
+      clientsClaim: true, // 立即激活service
+      skipWaiting: true, // 强制等待中的service worker被激活
+    }),
   ],
+  //webpack的优化配置，包括代码分割、压缩、模块分析等
   optimization: {
+    // 代码分割
     splitChunks: {
       chunks: "all", // 默认是async，表示只对异步代码进行分割，all表示同步异步代码都分割
       // minSize: 20000, // 生成chunk的最小大小，单位byte，默认是20kb
@@ -156,6 +164,10 @@ module.exports = {
           reuseExistingChunk: true, // 是否复用已经存在的chunk
         },
       },
+    },
+    //抽离模块间运行时的依赖关系到单独的文件中，避免被依赖的模块hash变化导致缓存失效
+    runtimeChunk: {
+      name: (entrypoint) => `runtime-${entrypoint.name}`,
     },
   },
   resolve: {
