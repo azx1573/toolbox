@@ -1,4 +1,5 @@
 const path = require("path");
+const os = require("os");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const BundleAnalyzerPlugin =
@@ -8,6 +9,10 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const generateStyleLoader = require("./generateStyleLoader");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
+const TerserWebpackPlugin = require("terser-webpack-plugin");
+
+// 获取CPU核数
+const threads = os.cpus().length;
 // @ts-check
 /** @type {import('webpack').Configuration} */
 
@@ -29,12 +34,22 @@ module.exports = {
           {
             test: /\.(js|ts)$/,
             include: path.resolve(__dirname, "../src"),
-            loader: "babel-loader",
-            options: {
-              cacheDirectory: true, // 开启babel缓存
-              cacheCompression: false, // 关闭babel缓存压缩，提升编译速度
-              plugins: ["@babel/plugin-transform-runtime"], // 减少babel编译代码体积
-            },
+            use: [
+              {
+                loader: "thread-loader", // 开启多线程loader
+                options: {
+                  workers: threads, // 开启的线程数
+                },
+              },
+              {
+                loader: "babel-loader",
+                options: {
+                  cacheDirectory: true, // 开启babel缓存
+                  cacheCompression: false, // 关闭babel缓存压缩，提升编译速度
+                  plugins: ["@babel/plugin-transform-runtime"], // 减少babel编译代码体积
+                },
+              },
+            ],
           },
           {
             test: /\.css$/,
@@ -91,6 +106,7 @@ module.exports = {
     new EslintWebpackPlugin({
       context: path.resolve(__dirname, "src"),
       cache: true,
+      threads, // 开启多线程eslint
     }),
     // 将css提取到单独文件
     new MiniCssExtractPlugin(),
@@ -101,8 +117,6 @@ module.exports = {
         "not dead", // 不兼容已经停止维护的浏览器
       ],
     }),
-    // webpack默认压缩只是针对简单的比如空格等，用插件开启css压缩
-    new CssMinimizerPlugin(),
     // 资源预加载，用于动态生成link标签，设置rel="preload" as="script"，提前加载js文件
     new PreloadWebpackPlugin({
       rel: "preload",
@@ -143,6 +157,21 @@ module.exports = {
     runtimeChunk: {
       name: (entrypoint) => `runtime-${entrypoint.name}`,
     },
+    // 压缩配置
+    minimizer: [
+      // 压缩css
+      new CssMinimizerPlugin(),
+      // 压缩js
+      new TerserWebpackPlugin({
+        parallel: true, // 开启多线程压缩
+        terserOptions: {
+          compress: {
+            drop_console: true, // 删除console
+            drop_debugger: true, // 删除debugger
+          },
+        },
+      }),
+    ],
   },
   resolve: {
     extensions: [".ts", ".js"],
