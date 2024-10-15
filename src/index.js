@@ -2,6 +2,7 @@ export { default as arrayRemoveDuplicates} from './toolbox/arrayRemoveDuplicates
 export { default as curryCase} from './toolbox/curryCase';
 export { default as debounce} from './toolbox/debounce';
 export { default as downloadWithTagA} from './toolbox/downloadWithTagA';
+export { default as isEqual} from './toolbox/isEqual';
 export { default as promise} from './toolbox/promise/index';
 export { default as publisherAndSubscriber} from './toolbox/publisherAndSubscriber';
 export { default as pwa} from './toolbox/pwa';
