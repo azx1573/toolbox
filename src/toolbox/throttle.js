@@ -9,12 +9,22 @@
 
 export default function throttle(fn, delay) {
   let timer = null;
-  return function () {
+
+  // 取消节流
+  const cancel = () => {
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+    }
+  };
+
+  return function (...args) {
     if (!timer) {
       timer = setTimeout(() => {
-        fn.apply(this, arguments);
+        fn.apply(this, args);
         timer = null;
       }, delay);
+      return cancel;
     }
   };
 }

@@ -8,13 +8,23 @@
  */
 export default function debounce(fn, delay) {
   let timer = null;
-  return function () {
+
+  // 取消防抖
+  const cancel = () => {
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+    }
+  };
+
+  return function (...args) {
     if (timer) {
       clearTimeout(timer);
     }
     timer = setTimeout(() => {
-      fn.apply(this, arguments);
+      fn.apply(this, args);
       timer = null;
     }, delay);
+    return cancel;
   };
 }
