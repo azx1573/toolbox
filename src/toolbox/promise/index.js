@@ -130,12 +130,14 @@ export default class Promise {
       };
       // 保存成功的回调函数
       if (this.PromiseState === "fulfilled") {
+        // then的回调函数是异步执行的，所以需要使用setTimeout来模拟异步操作
         setTimeout(() => {
           callback(onResolved);
         });
       }
       // 保存失败的回调函数
       if (this.PromiseState === "rejected") {
+        // then的回调函数是异步执行的，所以需要使用setTimeout来模拟异步操作
         setTimeout(() => {
           callback(onRejected);
         });
@@ -273,6 +275,46 @@ export default class Promise {
           }
         );
       }
+    });
+  }
+
+  /**
+   * Promise.allSettled方法，返回一个 Promise 对象，只有当所有的 Promise 对象都执行完毕后才会改变状态:
+   * 1. 不管成功还是失败都会执行，且等所有的Promise对象都执行完毕后才会返回
+   * 2. 返回一个新的Promise对象且状态是fulfilled
+   * 3. 返回的Promise对象的结果是一个由所有Promise对象的status和value组成的数组：
+   *   * status的值有两种：fulfilled和rejected
+   *   * value的值是Promise对象的结果
+   * 4. 数组的顺序和传入的Promise对象的顺序一致
+   * @param {*} promises
+   */
+  static allSettled(promises) {
+    return new Promise((resolve, reject) => {
+      let count = promises.length;
+      let result = [];
+      promises.forEach((promise, index) => {
+        promise
+          .then(
+            (res) => {
+              result[index] = {
+                status: "fulfilled",
+                value: res,
+              };
+            },
+            (err) => {
+              result[index] = {
+                status: "rejected",
+                value: err,
+              };
+            }
+          )
+          .finally(() => {
+            count--;
+            if (count === 0) {
+              resolve(result);
+            }
+          });
+      });
     });
   }
 }
