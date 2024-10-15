@@ -1,19 +1,24 @@
 /**
  * Promise构造函数
- * 具备能力：
- *   * 构造器拥有的属性和方法：
- *      * 接受一个构造器函数并立即执行(这就是我们所说的Promise函数会同步执行，而then函数会异步执行的源码依据)
- *      * 拥有【resolve和reject】两个函数,resolve函数将Promise对象的状态改为fulfilled,reject函数将Promise对象的状态改为rejected
- *      * 拥有【PromiseState】属性，用于保存Promise对象的状态
+ * 具备：
+ *   * 构造器及属性：
+ *      * 拥有一个构造器函数并立即执行(这就是我们所说的Promise函数会同步执行)
+ *      * 拥有【PromiseState】属性，用于保存Promise对象的状态，初始状态为pending
  *      * 拥有【PromiseResult】属性，用于保存Promise对象的结果(then方法需要返回成功或失败的结果)
- *      * 拥有【resolve】方法，返回一个Promise对象，通过Promise.resolve方法返回的Promise对象的状态和结果取决于传入的参数
- *      * 拥有【reject】方法，返回一个失败的Promise对象，不管传入的参数是什么，结果都是失败
- *      * 拥有【all】方法，用于指定多个Promise对象同时执行，只有全部成功才会成功，只要有一个失败就会失败
- *      * 拥有【finally】方法，用于指定无论成功还是失败都会执行的回调函数
- *      * 拥有【race】方法(类似于甲乙双方比赛，甲方为resolve方，乙方为reject方)，用于指定多个Promise对象同时执行，只要有一个成功就会成功，只要有一个失败就会失败
- *   * 实例对象原型拥有的属性和方法：
+ *   * 回调函数：拥有resolve和reject两个回调函数，用于指定成功和失败的回调函数
+ *      * resolve用于将Promise对象的状态改为fulfilled
+ *      * reject用于将Promise对象的状态改为rejected
+ *      * Promise对象的状态一旦改变就不会再改变
+ *   * 原型方法：
  *      * 拥有【then】方法，用于指定成功和失败的回调函数
  *      * 拥有【catch】方法，用于指定失败的回调函数
+ *      * 拥有【finally】方法，用于指定无论成功还是失败都会执行的回调函数
+ *   * 静态方法：
+ *      * Promise.resolve方法，返回一个Promise对象，通过Promise.resolve方法返回的Promise对象的状态和结果取决于传入的参数
+ *      * Promise.reject方法，返回一个失败的Promise对象，不管传入的参数是什么，结果都是失败
+ *      * Promise.all方法，用于指定多个Promise对象同时执行，只有全部成功才会成功(结果为所有Promise执行结果的数组)，只要有一个失败就会失败(结果为失败的那个Promise的结果)
+ *      * Promise.race方法，用于指定多个Promise对象同时执行，谁先改变状态谁就决定最终的状态和结果(结果是第一个改变状态的Promise的结果)
+ *      * Promise.allSettled方法，用于指定多个Promise对象同时执行，不管成功还是失败都会执行，且等所有的Promise对象都执行完毕后才会返回(结果为所有Promise状态和结果的数组，状态只有fulfilled和rejected)
  *   * 关于状态的改变：
  *      * Promise对象的状态一旦改变就不会再改变
  *      * Promise对象的状态只能从pending改变为fulfilled或rejected
