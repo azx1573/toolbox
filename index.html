@@ -27,6 +27,18 @@
       <button id="debounceBtn">防抖测试按钮</button>
       <button id="throttleBtn">节流测试按钮</button>
      </div>
+     <script>
+      console.log(
+        "%c掘金专栏: %chttps://juejin.cn/user/413072103572493/columns",
+        "color: blue;font-size:20px;",
+        "color: #1e80ff;font-size:20px;"
+      );
+      console.log(
+        "%c个人github地址: %chttps://github.com/azx1573",
+        "color: blue;font-size:20px;",
+        "color: #1e80ff;font-size:20px;"
+      );
+     </script>
     <script>
       /* get the input element */
       const ipt = document.getElementById("iptContainer");
@@ -47,7 +59,6 @@
     <script>
        const blob = new Blob(['Hello, world!'], { type: 'text/plain' });
        const url = URL.createObjectURL(blob);
-       console.log(8989, url);
        
       function debounce(fn, delay) {
         let timer = null;

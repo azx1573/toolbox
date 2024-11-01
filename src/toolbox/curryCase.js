@@ -27,5 +27,8 @@ function sum(a, b) {
 const curriedSum = curry(sum);
 const curriedSum2 = curry2(sum);
 
-console.log(111, curriedSum(1)(2)); // 3
-console.log(222, curriedSum2(1)(2)); // 3
+console.log(
+  "%c 🍱 curriedSum:",
+  "font-size:16px;background-color: #465975;color:#fff;",
+  curriedSum(1)(2)
+);
