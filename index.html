@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= htmlWebpackPlugin.options.title %> </title>
+    <title><%= htmlWebpackPlugin.options.title %></title>
     <style>
       #img-container {
         margin-top: 20px;
@@ -12,22 +12,22 @@
   </head>
   <body>
     <!-- 文件上传与预览 -->
-     <div>
+    <div>
       <h1 class="upload-preview">Mini Image Upload And Preview</h1>
       <input type="file" id="iptContainer" />
-  
+
       <div id="img-container"></div>
-        <img src="" id="imgContainer" />
-      </div>
-     </div>
+      <img src="" id="imgContainer" />
+    </div>
 
     <!-- 防抖节流测试 -->
-     <div>
+
+    <div>
       <h1 class="debounce-throttle">Debounce And Throttle</h1>
       <button id="debounceBtn">防抖测试按钮</button>
       <button id="throttleBtn">节流测试按钮</button>
-     </div>
-     <script>
+    </div>
+    <script>
       console.log(
         "%c掘金专栏: %chttps://juejin.cn/user/413072103572493/columns",
         "color: blue;font-size:20px;",
@@ -38,7 +38,7 @@
         "color: blue;font-size:20px;",
         "color: #1e80ff;font-size:20px;"
       );
-     </script>
+    </script>
     <script>
       /* get the input element */
       const ipt = document.getElementById("iptContainer");
@@ -57,9 +57,9 @@
     </script>
 
     <script>
-       const blob = new Blob(['Hello, world!'], { type: 'text/plain' });
-       const url = URL.createObjectURL(blob);
-       
+      const blob = new Blob(["Hello, world!"], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+
       function debounce(fn, delay) {
         let timer = null;
         return function () {
@@ -93,6 +93,21 @@
       throttleBtnClick.onclick = throttle(function () {
         console.log("点我触发节流");
       }, 2000);
+    </script>
+
+    <script>
+      const controller = new AbortController();
+      const { signal } = controller;
+
+      fetch("https://jsonplaceholder.typicode.com/todos/1", {
+        signal,
+      }).catch((error) => {
+        console.log(error);
+      });
+
+      setTimeout(() => {
+        controller.abort("Operation canceled by the user.");
+      }, 0);
     </script>
   </body>
 </html>
