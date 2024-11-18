@@ -5,7 +5,7 @@ import {
   FallbackRender,
   FallbackProps,
 } from "../types";
-import ErrorComponent from "../components/ErrorComponent";
+import ErrorComponent from "../static";
 import { initialState, arrayDiffFunc } from "./config";
 
 export default class ErrorBoundary extends React.Component<

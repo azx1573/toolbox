@@ -2,7 +2,7 @@
  * 下载内容如果是文本，用户要求单独打开一个页面并将下载的内容加载到页面中
  * @param filePath
  */
-const downloadWithTagA = (filePath) => {
+const downloadFile = (filePath) => {
   const a = document.createElement("a");
   a.href = filePath;
   a.target = "_blank";
@@ -13,4 +13,4 @@ const downloadWithTagA = (filePath) => {
   window.open(filePath);
 };
 
-export default downloadWithTagA;
+export default downloadFile;
