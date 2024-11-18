@@ -15,7 +15,7 @@ A progressive toolbox，it includes:
 - [downloadFile](https://github.com/azx1573/toolbox/blob/master/src/toolbox/downloadFile.js#L5-L14)
 - [isEqual](https://github.com/azx1573/toolbox/blob/master/src/toolbox/isEqual.js#L17-L47)
 - [toastMessage](https://github.com/azx1573/toolbox/blob/master/src/toolbox/toastMessage.js#L1-L14)
-  ...
+- ...
 
 ✨ components(src/components)
 
@@ -32,7 +32,7 @@ A progressive toolbox，it includes:
 - JumpLink
 - ModalWithExtra
 - RefreshSwitch
-  ...陆续添加中
+- ...陆续添加中
 
 ✨ other
 
