@@ -9,6 +9,56 @@
         margin-top: 20px;
       }
     </style>
+    <style>
+      /* 定义圆的基本样式 */
+      .circle {
+        margin-top: 30px;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: blue;
+        position: relative;
+        /* 使用动画，名称为swing，持续时间为2秒，无限循环，线性过渡 */
+        animation: swing 3s infinite;
+      }
+
+      /* 定义关键帧动画，实现左右摆动效果 */
+      @keyframes swing {
+        0% {
+          left: 0;
+        }
+
+        50% {
+          left: 100px;
+        }
+
+        100% {
+          left: 0;
+        }
+      }
+      .circle {
+        animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+      }
+
+      /* 定义等边三角形 */
+      .triangle {
+        width: 0;
+        height: 0;
+        border: 50px solid turquoise;
+        border-left-color: transparent;
+        border-right-color: transparent;
+        border-bottom-color: transparent;
+      }
+
+      .container {
+        display: flex;
+      }
+      .column {
+        flex: 1;
+        padding: 20px;
+        border: 1px solid #ccc;
+      }
+    </style>
   </head>
   <body>
     <!-- 文件上传与预览 -->
@@ -27,6 +77,32 @@
       <button id="debounceBtn">防抖测试按钮</button>
       <button id="throttleBtn">节流测试按钮</button>
     </div>
+
+    <div style="margin-top: 30px">
+      <h1>一个左右摆动的圆和一个三角形</h1>
+      <!-- 一个会左右摆动的圆 -->
+      <div class="circle"></div>
+
+      <!-- 边为100的等边三角形 -->
+      <div class="triangle"></div>
+    </div>
+
+    <div>
+      <div class="container">
+        <div class="column">
+          <p>第一列内容。</p>
+        </div>
+        <div class="column">
+          <p>
+            第二列内容，可能内容长度和第一列不同。第二列内容，可能内容长度和第一列不同。第二列内容，可能内容长度和第一列不同。第二列内容，可能内容长度和第一列不同。第二列内容，可能内容长度和第一列不同第二列内容，可能内容长度和第一列不同。第二列内容，可能内容长度和第一列不同。第二列内容，可能内容长度和第一列不同。第二列内容，可能内容长度和第一列不同。
+          </p>
+        </div>
+        <div class="column">
+          <p>第三列内容。</p>
+        </div>
+      </div>
+    </div>
+
     <script>
       console.log(
         "%c掘金专栏: %chttps://juejin.cn/user/413072103572493/columns",

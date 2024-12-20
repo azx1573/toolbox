@@ -9,8 +9,8 @@ import timeout from "./timeout.ts";
  * @param {Number} concurrentCOunt 并发数量，默认为2
  */
 class SuperTask {
-  constructor(concurrentCOunt = 2) {
-    this.conCurrentCount = concurrentCOunt;
+  constructor(concurrentCount = 2) {
+    this.conCurrentCount = concurrentCount;
     this.runningCount = 0;
     this.tasks = [];
   }
