@@ -5,7 +5,7 @@
  * 2. 存在一个发布者(菜鸟驿站发货负责人，对接多个商家集中填单发货)：负责发布所有的事件
  * 3. 存在一个订阅者(菜鸟驿站的消费者，callback相当于订阅方式，比如通过短信的方式)：当订阅了感兴趣的事件后，会通过订阅者设置的订阅方式自动收到来自发布者的通知
  * @returns {
- *  describe: (event, callback) => {},
+ *  subscribe: (event, callback) => {},
  *  publish: (event, data) => {},
  * }
  */
@@ -18,7 +18,7 @@ export default function createPubSub() {
    * @param {*} event
    * @param {*} callback
    */
-  function describe(event, callback) {
+  function subscribe(event, callback) {
     /** 如果没有订阅者时创建一个空数组，这样发布者就无需做非法格式的判断*/
     if (!subscribers[event]) {
       subscribers[event] = [];
@@ -58,7 +58,7 @@ export default function createPubSub() {
 
   /** 事件中心统一向外公布发布和订阅方法 */
   return {
-    describe,
+    subscribe,
     publish,
     unSubscribe,
   };
@@ -70,7 +70,7 @@ const callback = (data) => {
 };
 
 // 订阅者订阅事件
-pubSub.describe("event", callback);
+pubSub.subscribe("event", callback);
 
 // 订阅者取消订阅(如果订阅后取消了订阅，则不会收到消息)
 pubSub.unSubscribe("event", callback);
